@@ -72,10 +72,7 @@ index d5a8550..c403502 100644\n\
  end\n\
 -- \n\
 2.5.0\n\
-\n" | patch -p1\
-&& localedef -i ru_RU -f UTF-8 ru_RU.UTF-8
-
-ENV LANG=ru_RU.UTF-8
+\n" | patch -p1
 
 CMD su -c 'bundle exec bin/rails server webrick -b 0.0.0.0 -e production' $REDMINE_USER
 
@@ -84,3 +81,5 @@ CMD su -c 'bundle exec bin/rails server webrick -b 0.0.0.0 -e production' $REDMI
 RUN echo "Rails.logger = Logger.new(STDOUT)" >> config/additional_environment.rb \
  && echo "Rails.logger.level = :info " >> config/additional_environment.rb
 
+VOLUME [ "/opt/redmine-$REDMINE_VERSION/db", "/opt/redmine-$REDMINE_VERSION/config" ]
+EXPOSE 3000
