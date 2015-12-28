@@ -1,7 +1,7 @@
 job1:
   script: 
-    - docker build --force-rm -t redmine-3.2.0 .
-    - docker run -d -p 3000:3000 --name redmine redmine-3.2.0
+    - su -c 'docker build --force-rm -t redmine-3.2.0 .'
+    - su -c 'docker run -d -p 3000:3000 --name redmine redmine-3.2.0'
     - curl http://127.0.0.1:3000/
-    - docker stop redmine
-    - docker rm redmine
+    - su -c 'docker stop redmine'
+    - su -c 'docker rm redmine'
