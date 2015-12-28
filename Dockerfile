@@ -14,6 +14,7 @@ RUN  curl $REDMINE_URL > redmine-$REDMINE_VERSION.tar.gz\
   && tar -zxvf redmine-$REDMINE_VERSION.tar.gz\
   && rm -f redmine-$REDMINE_VERSION.tar.gz\
   && yum install -y ruby \
+                    which \
                     ruby-devel \
                     rake \
                     rubygem-bundler \
