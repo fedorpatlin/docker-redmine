@@ -2,6 +2,6 @@ job1:
   script: 
     - docker build --force-rm -t redmine-3.2.0 .
     - docker run -d -p 3000:3000 --name redmine redmine-3.2.0
-    - curl http://127.0.0.1:3000/
+    - sleep 10 && curl http://127.0.0.1:3000/
     - docker stop redmine
     - docker rm redmine
