@@ -1,3 +1,7 @@
 job1:
   script: 
-    - echo "YAY!!"
+    - sudo docker build --force-rm -t redmine-3.2.0 .
+    - sudo docker run -d -p 3000:3000 --name redmine redmine-3.2.0
+    - curl http://127.0.0.1:3000/
+    - sudo docker stop redmine
+    - sudo docker rm redmine
