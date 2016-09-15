@@ -32,13 +32,12 @@ RUN  curl $REDMINE_URL > redmine-$REDMINE_VERSION.tar.gz\
                     postgresql-devel \
                     mariadb-devel \
   && cd /opt/redmine-$REDMINE_VERSION\
-# Installing our ca-certificate
   && curl http://auth02.sec.sovzond.center/ipa/config/ca.crt > /etc/pki/ca-trust/source/anchors/ca.crt \
   && update-ca-trust \
   && echo Installing database.yml\
-  && echo -e "development:\n  adapter: sqlite3\n  database: db/redmine.sqlite3\n" > config/database.yml \
-  && echo -e "production:\n  adapter: postgresql\n  database: redmine\n  host: dbhost\n  port: dbport\n  username: redmine\n  password: redpwd\n  encoding: utf-8\n  schema_search_path: public\n" >> config/database.yml\
-#  && echo -e "test:\n  adapter: mysql\n  database: redmine\n  host: dbhost\n  port: dbport\n  username: redmine\n  password: redpwd\n" >> config/database.yml\
+  && echo -e "production:\n  adapter: sqlite3\n  database: db/redmine.sqlite3\n" > config/database.yml \
+  && echo -e "gem \"mysql2\", \"~> 0.3.11\", :platforms => [:mri, :mingw, :x64_mingw]\n\
+gem \"pg\", \"~> 0.18.1\", :platforms => [:mri, :mingw, :x64_mingw]\n" > Gemfile.local\
   && cat config/database.yml\
   && chown -R "$REDMINE_USER": /opt/redmine-$REDMINE_VERSION\
   && su -c 'bundle install' "$REDMINE_USER" \
@@ -59,5 +58,5 @@ CMD su -c 'bundle exec bin/rails server webrick -b 0.0.0.0 -e production' $REDMI
 RUN echo "Rails.logger = Logger.new(STDOUT)" >> config/additional_environment.rb \
  && echo "Rails.logger.level = :info " >> config/additional_environment.rb
 
-VOLUME [ "/opt/redmine-$REDMINE_VERSION/db", "/opt/redmine-$REDMINE_VERSION/config" ]
+VOLUME [ "/opt/redmine-$REDMINE_VERSION/db", "/opt/redmine-$REDMINE_VERSION/config", "/config" ]
 EXPOSE 3000
