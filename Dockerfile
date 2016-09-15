@@ -38,7 +38,7 @@ RUN  curl $REDMINE_URL > redmine-$REDMINE_VERSION.tar.gz\
   && echo Installing database.yml\
   && echo -e "development:\n  adapter: sqlite3\n  database: db/redmine.sqlite3\n" > config/database.yml \
   && echo -e "production:\n  adapter: postgresql\n  database: redmine\n  host: dbhost\n  port: dbport\n  username: redmine\n  password: redpwd\n  encoding: utf-8\n  schema_search_path: public\n" >> config/database.yml\
-  && echo -e "test:\n  adapter: mysql\n  database: redmine\n  host: dbhost\n  port: dbport\n  username: redmine\n  password: redpwd\n" >> config/database.yml\
+#  && echo -e "test:\n  adapter: mysql\n  database: redmine\n  host: dbhost\n  port: dbport\n  username: redmine\n  password: redpwd\n" >> config/database.yml\
   && cat config/database.yml\
   && chown -R "$REDMINE_USER": /opt/redmine-$REDMINE_VERSION\
   && su -c 'bundle install' "$REDMINE_USER" \
