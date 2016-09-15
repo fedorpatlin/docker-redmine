@@ -33,12 +33,13 @@ RUN  curl $REDMINE_URL > redmine-$REDMINE_VERSION.tar.gz\
 # Installing our ca-certificate
   && curl http://auth02.sec.sovzond.center/ipa/config/ca.crt > /etc/pki/ca-trust/source/anchors/ca.crt \
   && update-ca-trust \
-# Installing database.yml
-  && echo -e "production:\n  adapter: sqlite3\n  database: db/redmine.sqlite3\n" > config/database.yml \
+  && echo Installing database.yml\
+  && echo -e "dev:\n  adapter: sqlite3\n  database: db/redmine.sqlite3\n" > config/database.yml \
+  && echo -e "production:\n adapter:postgresql\n database:redmine\n host:dbhost\n port:dbport\n username:redmine\n password:redpwd" >> config/database.ymlconfig/database.yml\
   && chown -R "$REDMINE_USER": /opt/redmine-$REDMINE_VERSION\
   && su -c 'bundle install' "$REDMINE_USER" \
   && su -c 'bundle exec rake generate_secret_token' "$REDMINE_USER" \
-  && su -c 'bundle exec rake db:migrate' $REDMINE_USER \
+#  && su -c 'bundle exec rake db:migrate' $REDMINE_USER \
   && echo $REDMINE_LANG | su -c 'bundle exec rake redmine:load_default_data' $REDMINE_USER \
   && yum remove -y make gcc cpp glibc-devel glibc-headers kernel-headers libmpc mpfr sqlite-devel libxml2-devel xz-devel zlib-devel ImageMagick-devel \
   && yum clean all \
