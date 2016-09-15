@@ -61,5 +61,5 @@ ENTRYPOINT ["/bin/docker-entrypoint.sh"]
 RUN echo "Rails.logger = Logger.new(STDOUT)" >> config/additional_environment.rb \
  && echo "Rails.logger.level = :info " >> config/additional_environment.rb
 
-VOLUME [ "/opt/redmine-$REDMINE_VERSION/db", "/opt/redmine-$REDMINE_VERSION/config", "/config" ]
+VOLUME [ "/opt/redmine-$REDMINE_VERSION/db", "/opt/redmine-$REDMINE_VERSION/files", "/config" ]
 EXPOSE 3000
