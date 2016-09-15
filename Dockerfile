@@ -51,7 +51,10 @@ gem \"pg\", \"~> 0.18.1\", :platforms => [:mri, :mingw, :x64_mingw]\n" > Gemfile
 
 WORKDIR /opt/redmine-$REDMINE_VERSION
 
-CMD su -c 'bundle exec bin/rails server webrick -b 0.0.0.0 -e production' $REDMINE_USER
+# CMD su -c 'bundle exec bin/rails server webrick -b 0.0.0.0 -e production' $REDMINE_USER
+COPY docker-entrypoint.sh /bin/docker-entrypoint.sh
+RUN chmod +x /bin/docker-entrypoint.sh
+ENTRYPOINT ["/bin/docker-entrypoint.sh"]
 
 # Redirect logs to stdout
 #
