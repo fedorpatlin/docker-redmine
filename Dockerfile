@@ -63,3 +63,4 @@ RUN echo "Rails.logger = Logger.new(STDOUT)" >> config/additional_environment.rb
 
 VOLUME [ "/opt/redmine-$REDMINE_VERSION/db", "/opt/redmine-$REDMINE_VERSION/files", "/config" ]
 EXPOSE 3000
+RUN sed -i 's|Rails.application.initialize!|#Rails.application.initialize!|g' config/environment.rb && echo -e 'RedmineApp::Application.routes.default_scope = "/redmine"\nRails.application.initialize!' >> config/environment.rb
