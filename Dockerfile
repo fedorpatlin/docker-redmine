@@ -5,7 +5,7 @@ ENV REDMINE_URL=http://www.redmine.org/releases/redmine-$REDMINE_VERSION.tar.gz\
     REDMINE_USER=redmine\
     REDMINE_UID=60000\
     REDMINE_GID=60000\
-    RAILS_ENV=production\
+    RAILS_ENV=dev\
     REDMINE_LANG=ru
 
 WORKDIR /opt
@@ -29,13 +29,16 @@ RUN  curl $REDMINE_URL > redmine-$REDMINE_VERSION.tar.gz\
                     ImageMagick-devel \
                     sqlite \
                     sqlite-devel \
+                    postgresql-devel \
+                    mariadb-devel \
   && cd /opt/redmine-$REDMINE_VERSION\
 # Installing our ca-certificate
   && curl http://auth02.sec.sovzond.center/ipa/config/ca.crt > /etc/pki/ca-trust/source/anchors/ca.crt \
   && update-ca-trust \
   && echo Installing database.yml\
   && echo -e "dev:\n  adapter: sqlite3\n  database: db/redmine.sqlite3\n" > config/database.yml \
-  && echo -e "production:\n adapter:postgresql\n database:redmine\n host:dbhost\n port:dbport\n username:redmine\n password:redpwd" >> config/database.ymlconfig/database.yml\
+  && echo -e "production:\n adapter:postgresql\n database:redmine\n host:dbhost\n port:dbport\n username:redmine\n password:redpwd" >> config/database.yml\
+  && echo -e "mysql:\n adapter:mysql\n database:redmine\n host:dbhost\n port:dbport\n username:redmine\n password:redpwd" >> config/database.yml\
   && chown -R "$REDMINE_USER": /opt/redmine-$REDMINE_VERSION\
   && su -c 'bundle install' "$REDMINE_USER" \
   && su -c 'bundle exec rake generate_secret_token' "$REDMINE_USER" \
