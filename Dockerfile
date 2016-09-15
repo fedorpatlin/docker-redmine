@@ -13,8 +13,8 @@ RUN groupadd -g $REDMINE_GID $REDMINE_USER && useradd -u $REDMINE_UID -g $REDMIN
 RUN  curl $REDMINE_URL > redmine-$REDMINE_VERSION.tar.gz\
   && tar -zxvf redmine-$REDMINE_VERSION.tar.gz\
   && rm -f redmine-$REDMINE_VERSION.tar.gz\
-  && yum install -y which\
-                    ruby \
+  && yum install -y ruby \
+                    which \
                     ruby-devel \
                     rake \
                     rubygem-bundler \
